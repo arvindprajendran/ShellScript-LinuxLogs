@@ -1,0 +1,50 @@
+#!/bin/bash
+#Script to execute the commands!
+
+DATE=$(date '+%m-%d-%Y');
+filename="${DATE}.txt"
+num=0
+while [ -f $filename ]; do
+    num=$(( $num + 1 ))
+    filename="${DATE}--${num}.txt"
+done
+touch $filename
+
+dt=$(date '+%m/%d/%Y %H:%M:%S');
+
+echo -e Hi there,"\n" >> $filename
+echo -e At $dt, the following commands were executed and their outputs were collected  >> $filename
+echo -e  "\n " >> $filename
+
+sudo kill -3 2242
+
+echo -e "Execute sudo netstat -tulpna" >> $filename
+sudo netstat -tulpna >> $filename
+echo -e  "\n \n" >> $filename
+
+echo -e "Execute sudo ss -ap" >> $filename
+sudo ss -ap >> $filename
+echo -e  "\n \n" >> $filename
+
+echo -e "Execute sudo ss -s" >> $filename
+sudo ss -s >> $filename
+echo -e  "\n \n" >> $filename
+
+echo -e "Execute sudo vmstat 3 3" >> $filename
+sudo vmstat 3 3 >> $filename
+echo -e  "\n \n" >> $filename
+
+echo -e "Execute sudo ps -auxf | sort -nr -k 4 | head -10" >> $filename
+sudo ps -auxf | sort -nr -k 4 | head -10 >> $filename
+echo -e  "\n \n" >> $filename
+
+echo -e "Execute sudo ps -auxf | sort -nr -k 3 | head -10" >> $filename
+sudo ps -auxf | sort -nr -k 3 | head -10 >> $filename
+echo -e  "\n \n" >> $filename
+
+echo -e Execute sudo lsof -i -U >> $filename
+sudo lsof -i -U >> $filename
+echo -e  "\n \n" >> $filename
+
+echo -e "Execute sudo lsof -a -p 2242" >> $filename
+sudo lsof -a -p 2242 >> $filename
